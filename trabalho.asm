@@ -1,12 +1,20 @@
 .code
 entrada_dados:
+
 	LDA teclado_end
     INT input
+
+conversao_entrada:
+	
 	SUB converter
+
+operacao:
+
 	SHIFT esquerda
  	STA n
 
-	
+saida_dados:
+
 	LDA video_end
 	ADD n
 	ADD converter
