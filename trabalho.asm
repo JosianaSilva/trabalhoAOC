@@ -3,22 +3,28 @@ entrada_dados:
 
 	LDA teclado_end
     INT input
-
+	
 conversao_entrada:
 	
 	SUB converter
+	STA n
 
+	JN operacao
+	JMP entrada_dados
+	
 operacao:
 
 	SHIFT esquerda
  	STA n
-
+	
 saida_dados:
 
+	MOV 0
 	LDA video_end
 	ADD n
 	ADD converter
 	INT output
+	
 
 end:
 	INT exit
@@ -26,6 +32,7 @@ end:
 .data
 	;syscall exit
 	exit: DD 25
+	dobro: DD 0
 	n: DD 0
 
 	converter: DD 48
@@ -40,4 +47,5 @@ end:
 	esquerda: DD 1
 	
 .stack 10
+
 
