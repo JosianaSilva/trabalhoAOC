@@ -1,13 +1,17 @@
 .code
+entrada_dados:
 	LDA teclado_end
     INT input
-	SUB valor
+	SUB converter
 	SHIFT esquerda
  	STA n
+
 	
-;while:
-;	SHIFT direita
-;	JZ while
+	LDA video_end
+	ADD n
+	ADD converter
+	INT output
+
 end:
 	INT exit
 
@@ -16,7 +20,7 @@ end:
 	exit: DD 25
 	n: DD 0
 
-	valor: DD 48
+	converter: DD 48
 
 	video_end: DD 0x000
 	input: DD 20
@@ -28,3 +32,4 @@ end:
 	esquerda: DD 1
 	
 .stack 10
+
