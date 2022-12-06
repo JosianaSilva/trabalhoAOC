@@ -8,25 +8,23 @@ conversao_entrada:
 	
 	SUB converter; AC - 48
 	JN operacao; if entrada.hasNext() = false	
-	;ADD acumulador; AC + acumulador
 	STA n; n = AC
-	
-	MOV 1
-	SUB contador
-	JZ mult10 ; se cont = 1 vai pra mult10
-	
+
 	MOV 1 
 	ADD contador
 	STA contador ; cont += 1
 	
+	
+	MOV 2
+	SUB contador
+	JZ mult10 ; se cont = 2 vai pra mult10
+	
+
 	LDA n
 	STA acumulador
 	
 	JMP entrada_dados
 	
-	
-	;JMP mult10; else 
-
 mult10:
 	
 	LDA acumulador
@@ -41,25 +39,50 @@ mult10:
 
 operacao:
 		
-
 	MOV 1
 	SUB contador
-	JZ dobrar 
+	JZ dobrar ; if contador = 1 
 
 	LDA n
 	ADD acumulador
 	STA acumulador
 
 dobrar:
+
 	LDA acumulador
 	SHIFT esquerda
  	STA dobro
+
+dividindo_1:
+
+	LDA dobro
+	STA quociente
+
+dividindo_2:
+
+	LDA quociente
+	SUB dez
+	JN saida_dados; quociente < 10
+
+	LDA quociente
+	SUB dez	
+	STA quociente
 	
+	MOV 1
+	ADD auxiliar
+	STA auxiliar
+	JMP dividindo_2	
+
 saida_dados:
 
 	MOV 0
 	LDA video_end
-	ADD dobro
+	ADD auxiliar
+	ADD converter
+	INT output
+
+	LDA video_end
+	ADD quociente
 	ADD converter
 	INT output
 
@@ -68,7 +91,6 @@ print_linha:
 	ADD quebra_linha
 	INT output
 		
-
 end:
 	INT exit
 
@@ -80,8 +102,12 @@ end:
 	contador: DD 0
 	acumulador: DD 0
 
+	auxiliar: DD 0
+	quociente: DD 0
+
 	converter: DD 48
 	quebra_linha: DD 13
+	dez: DD 10
 
 	video_end: DD 0x000
 	input: DD 20
@@ -93,5 +119,6 @@ end:
 	esquerda: DD 1
 	
 .stack 100
+
 
 
