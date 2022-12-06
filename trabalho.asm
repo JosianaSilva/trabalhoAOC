@@ -36,13 +36,22 @@ mult10:
 	ADD acumulador
 	ADD acumulador
 	STA acumulador
+
 	JMP operacao
 
 operacao:
+		
+
+	MOV 1
+	SUB contador
+	JZ dobrar 
 
 	LDA n
 	ADD acumulador
+	STA acumulador
 
+dobrar:
+	LDA acumulador
 	SHIFT esquerda
  	STA dobro
 	
@@ -53,7 +62,13 @@ saida_dados:
 	ADD dobro
 	ADD converter
 	INT output
-	
+
+print_linha:
+	LDA video_end
+	ADD quebra_linha
+	INT output
+		
+
 end:
 	INT exit
 
@@ -66,6 +81,7 @@ end:
 	acumulador: DD 0
 
 	converter: DD 48
+	quebra_linha: DD 13
 
 	video_end: DD 0x000
 	input: DD 20
