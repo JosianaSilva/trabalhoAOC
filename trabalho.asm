@@ -7,33 +7,50 @@ entrada_dados:
 conversao_entrada:
 	
 	SUB converter; AC - 48
-	ADD acumulador; AC + acumu
+	JN operacao; if entrada.hasNext() = false	
+	;ADD acumulador; AC + acumulador
 	STA n; n = AC
-
-	JN operacao; if entrada.hasNext() = false
-	JMP mult10; else 
+	
+	MOV 1
+	SUB contador
+	JZ mult10 ; se cont = 1 vai pra mult10
+	
+	MOV 1 
+	ADD contador
+	STA contador ; cont += 1
+	
+	LDA n
+	STA acumulador
+	
+	JMP entrada_dados
+	
+	
+	;JMP mult10; else 
 
 mult10:
 	
-	MOV n
+	LDA acumulador
 	SHIFT esquerda
 	SHIFT esquerda
 	SHIFT esquerda
-	ADD n
-	ADD n
+	ADD acumulador
+	ADD acumulador
 	STA acumulador
-	JMP entrada_dados
+	JMP operacao
 
 operacao:
 
+	LDA n
+	ADD acumulador
+
 	SHIFT esquerda
- 	STA n
+ 	STA dobro
 	
 saida_dados:
 
 	MOV 0
 	LDA video_end
-	ADD n
+	ADD dobro
 	ADD converter
 	INT output
 	
