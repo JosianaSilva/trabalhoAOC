@@ -6,12 +6,24 @@ entrada_dados:
 	
 conversao_entrada:
 	
-	SUB converter
-	STA n
+	SUB converter; AC - 48
+	ADD acumulador; AC + acumu
+	STA n; n = AC
 
-	JN operacao
-	JMP entrada_dados
+	JN operacao; if entrada.hasNext() = false
+	JMP mult10; else 
+
+mult10:
 	
+	MOV n
+	SHIFT esquerda
+	SHIFT esquerda
+	SHIFT esquerda
+	ADD n
+	ADD n
+	STA acumulador
+	JMP entrada_dados
+
 operacao:
 
 	SHIFT esquerda
@@ -25,7 +37,6 @@ saida_dados:
 	ADD converter
 	INT output
 	
-
 end:
 	INT exit
 
@@ -34,6 +45,8 @@ end:
 	exit: DD 25
 	dobro: DD 0
 	n: DD 0
+	contador: DD 0
+	acumulador: DD 0
 
 	converter: DD 48
 
@@ -46,6 +59,6 @@ end:
 	direita:DD 0
 	esquerda: DD 1
 	
-.stack 10
+.stack 100
 
 
