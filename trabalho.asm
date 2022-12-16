@@ -3,7 +3,7 @@ print:
 	LDI ptr           
 	SUB ultimo_caractere
 	JZ  print_linha1
-do:
+
 	LDI ptr           
 	ADD video_end
 	INT output 
@@ -27,7 +27,7 @@ entrada_dados:
 conversao_entrada:
 	
 	SUB converter       ; AC - 48
-	JN operacao   					; se não houver entrada, pula pra operação	
+	JN operacao   					; se nï¿½o houver entrada, pula pra operaï¿½ï¿½o	
 	STA n					; n = AC
 
 	MOV 0
@@ -84,31 +84,31 @@ dobrar:
 	SHIFT esquerda
  	STA dobro
 
-dividindo_1:
+operacao2:
 
 	LDA dobro
-	STA quociente
+	STA parte_inteira
 
-dividindo_2:
+op_modulo_10:
 
-	LDA quociente
+	LDA parte_inteira
 	SUB dez
-	JN print2; quociente < 10
+	JN print2			; parte_inteira < 10
 
-	LDA quociente
+	LDA parte_inteira
 	SUB dez	
-	STA quociente
+	STA parte_inteira
 	
 	MOV 1
-	ADD auxiliar
-	STA auxiliar
-	JMP dividindo_2	
+	ADD modulo
+	STA modulo
+	JMP op_modulo_10	
 
 print2: 
 	LDI ptr2     
 	SUB ultimo_caractere
 	JZ  saida_dados
-do:
+
 	LDI ptr2          
 	ADD video_end
 	INT output 
@@ -123,12 +123,12 @@ saida_dados:
 
 	MOV 0
 	LDA video_end
-	ADD auxiliar
+	ADD modulo
 	ADD converter
 	INT output
 
 	LDA video_end
-	ADD quociente
+	ADD parte_inteira
 	ADD converter
 	INT output
 
@@ -136,21 +136,22 @@ print_linha:
 	LDA video_end
 	ADD quebra_linha
 	INT output
-	
+
+reinicializacao_dos_valores:	
 	MOV 0
 	STA n
-	STA auxiliar
+	STA modulo
 	STA acumulador
 	STA contador
 	STA dobro
-	STI ptr2 
 
-	JMP print
+	JMP entrada_dados
+
 end:
 	INT exit
 
 .data
-	;syscall exit
+	
 	exit: DD 25
 
 	dobro: DD 0
@@ -158,8 +159,8 @@ end:
 	contador: DD 0
 	acumulador: DD 0
 
-	auxiliar: DD 0
-	quociente: DD 0
+	modulo: DD 0
+	parte_inteira: DD 0
 
 	converter: DD 48
 	quebra_linha: DD 13
