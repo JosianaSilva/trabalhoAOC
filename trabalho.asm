@@ -20,15 +20,13 @@ print_linha1:
 	INT output
 
 entrada_dados:
-
 	LDA teclado_end
     INT input
 	
 conversao_entrada:
-	
 	SUB converter       ; AC - 48
-	JN operacao   					; se n�o houver entrada, pula pra opera��o	
-	STA n					; n = AC
+	JN operacao   		; se n�o houver entrada, pula pra opera��o	
+	STA n				; n = AC
 
 	MOV 0
 	SUB n
@@ -37,14 +35,12 @@ conversao_entrada:
 continue:
 	MOV 1 
 	ADD contador
-	STA contador 					; cont += 1
-	
+	STA contador 		; cont += 1	
 	
 	MOV 2
 	SUB contador
-	JZ mult10 					; se cont = 2 vai pra mult10
+	JZ mult10 			; se cont = 2 vai pra mult10
 	
-
 	LDA n
 	STA acumulador
 	
@@ -56,8 +52,7 @@ condicao:
 	JZ end
 	JMP continue
 	
-mult10:
-	
+mult10:	
 	LDA acumulador
 	SHIFT esquerda
 	SHIFT esquerda
@@ -68,29 +63,25 @@ mult10:
 
 	JMP operacao
 
-operacao:
-		
+operacao:	
 	MOV 1
 	SUB contador
-	JZ dobrar ; if contador = 1 
+	JZ dobrar 			; if contador = 1 
 
 	LDA n
 	ADD acumulador
 	STA acumulador
 
 dobrar:
-
 	LDA acumulador
 	SHIFT esquerda
  	STA dobro
 
 operacao2:
-
 	LDA dobro
 	STA parte_inteira
 
 op_modulo_10:
-
 	LDA parte_inteira
 	SUB dez
 	JN print2			; parte_inteira < 10
@@ -120,7 +111,6 @@ print2:
 	JMP print2
 
 saida_dados:
-
 	MOV 0
 	LDA video_end
 	ADD modulo
@@ -154,31 +144,31 @@ end:
 	
 	exit: DD 25
 
-	dobro: DD 0
-	n: DD 0
-	contador: DD 0
-	acumulador: DD 0
+	dobro: 				DD 0
+	n: 					DD 0
+	contador: 			DD 0
+	acumulador: 		DD 0
 
-	modulo: DD 0
-	parte_inteira: DD 0
+	modulo: 			DD 0
+	parte_inteira: 		DD 0
 
-	converter: DD 48
-	quebra_linha: DD 13
-	dez: DD 10
+	converter: 			DD 48
+	quebra_linha: 		DD 13
+	dez: 				DD 10
 
-	mensagem: INITB "Escreva um numero ",0
-	ptr: DD mensagem
-	mensagem2: INITB "O dobro e ",0
-	ptr2: DD mensagem2
-	ultimo_caractere: DD 0
+	mensagem: 			INITB "Escreva um numero ",0
+	ptr: 				DD mensagem
+	mensagem2: 			INITB "O dobro e ",0
+	ptr2: 				DD mensagem2
+	ultimo_caractere: 	DD 0
 
-	video_end: DD 0x000
-	input: DD 20
+	video_end: 			DD 0x000
+	input: 				DD 20
 
-	teclado_end: DD 0x100
-	output: DD 21
+	teclado_end: 		DD 0x100
+	output: 			DD 21
 
-	direita:DD 0
-	esquerda: DD 1
+	direita: 			DD 0
+	esquerda: 			DD 1
 	
 .stack 100
